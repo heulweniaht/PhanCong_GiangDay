@@ -10,15 +10,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import org.json.JSONObject;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,9 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -220,16 +212,17 @@ public class MainActivity extends AppCompatActivity {
 
 
             // 2. IN LOG KIỂM TRA (Xem Logcat thẻ "CHECK_DATA")
-            android.util.Log.d("CHECK_DATA", "Gửi đi -> MaLop: " + maLop + " | MaMH: " + maMH + " | MaGV: " + maGV);
+            android.util.Log.d("DEBUG_SEND", "Lop: " + maLop + " - MH: " + maMH + " - GV: " + maGV);
 
-            // 3. Chặn nếu dữ liệu null
             if (maLop == null || maMH == null || maGV == null) {
-                Toast.makeText(MainActivity.this, "Dữ liệu bị thiếu (null), kiểm tra lại Spinner!", Toast.LENGTH_SHORT).show();
-                return; // Dừng lại, không gửi lên server
+                Toast.makeText(MainActivity.this, "Dữ liệu bị thiếu! Kiểm tra lại Spinner.", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            PhanCong data = new PhanCong(maMH, maLop, maGV);
-
+            PhanCongRequest data = new PhanCongRequest(maLop, maMH, maGV);
+            Gson gson = new Gson();
+            String jsonCheck = gson.toJson(data);
+            android.util.Log.e("CHECK_JSON", "JSON gửi đi: " + jsonCheck);
 
             ApiClient.getService().savePhanCong(data).enqueue(new Callback<Void>() {
                 @Override

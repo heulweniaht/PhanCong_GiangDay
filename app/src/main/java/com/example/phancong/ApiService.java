@@ -1,9 +1,7 @@
 package com.example.phancong;
 
 import java.util.List;
-import java.util.Map;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -17,9 +15,8 @@ public interface ApiService {
     Call<List<PhanCong>> getPhanCong(@Query("maLop") String maLop);
 
     // Lưu phân công (Thêm mới hoặc Cập nhật)
-    @Headers("Content-Type: application/json")
     @POST("api/PhanCongGiangDay")
-    Call<Void> savePhanCong(@Body PhanCong body);
+    Call<Void> savePhanCong(@Body PhanCongRequest body);
     // Xóa phân công
     @DELETE("api/PhanCongGiangDay")
     Call<Void> deletePhanCong(@Query("maLop") String maLop, @Query("maMH") String maMH);

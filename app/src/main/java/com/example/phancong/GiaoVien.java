@@ -3,7 +3,8 @@ package com.example.phancong;
 import com.google.gson.annotations.SerializedName;
 
 public class GiaoVien {
-    String maGV;
+    @SerializedName(value = "maGV", alternate = {"MaGV", "magv", "id", "code"})
+    private String maGV;
     @SerializedName("hoten")
     String tenGV;
 
